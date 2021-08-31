@@ -9,7 +9,7 @@ import gsap from 'gsap'; //to create animations like timelines twins and all
 const scene = new THREE.Scene();
 
 // objects
-const geometry = new THREE.BoxGeometry(1, 1, 1);
+const geometry = new THREE.BoxGeometry(1, 1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
@@ -21,25 +21,28 @@ scene.add(axesHelper);
 // mesh.position.normalize();
 // sizes
 const sizes = {
-	width: window.innerWidth,
-	height: window.innerHeight,
+	width: 800,
+	height: 600,
 };
 
 // Camera
 // using logical camera
-const camera = new THREE.PerspectiveCamera(
-	100,
-	sizes.width / sizes.height,
-	1, //near
-	1000 //far
+const aspectRatio = sizes.width / sizes.height;
+const camera = new THREE.OrthographicCamera(
+	-1 * aspectRatio,
+	1 * aspectRatio,
+	1,
+	-1,
+	0.1,
+	100
 );
 
 // time
 let time = Date.now();
 
 camera.position.z = 2;
-camera.position.y = 1;
-camera.position.x = 1;
+camera.position.x = 2;
+camera.position.y = 2;
 
 scene.add(camera);
 
@@ -70,8 +73,8 @@ const loop = () => {
 	console.log(clock);
 
 	//! updates objects
-	// mesh.rotation.x += 0.01;
-	mesh.rotation.y = elapsedTime * Math.PI * 1; //one revolution per second
+	mesh.rotation.y += 0.01;
+	// mesh.rotation.y = elapsedTime * Math.PI * 2; //one revolution per second
 	// mesh.position.x = Math.sin(elapsedTime);
 	// mesh.position.y = Math.cos(elapsedTime);
 	camera.lookAt(mesh.position);
