@@ -2,7 +2,7 @@
 
 import './style.css';
 import * as THREE from 'three';
-import { Mesh, TextureLoader } from 'three';
+import { Mesh, PointLight, TextureLoader } from 'three';
 import gsap from 'gsap'; //to create animations like timelines twins and all
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
@@ -11,70 +11,55 @@ import * as dat from 'dat.gui';
 //debug
 const gui = new dat.GUI();
 
-// cursor
-//cursor coordinate only inside the canvas
-const cursor = {
-	x: 0,
-	y: 0,
-};
-window.addEventListener('mousemove', (event) => {
-	cursor.x = -(event.clientX / sizes.width - 0.5);
-	cursor.y = event.clientY / sizes.height - 0.5;
-});
-// textures
-const image = new Image();
-const loadingManager = new THREE.LoadingManager();
-// loadingManager.onStart = () => {};
-// loadingManager.onLoad = () => {};
-// loadingManager.onProgress = () => {};
-const textureLoader = new THREE.TextureLoader(loadingManager);
-const texture = textureLoader.load(
-	'displacementMap.png'
-	// () => {
-	// 	console.log('load');
-	// },
-	// () => {
-	// 	console.log('progress');
-	// },
-	// () => {
-	// 	console.log('error');
-	// }
-);
+const textureLoader = new THREE.TextureLoader();
+const doorColorTexture = textureLoader.load('displacementMap.png');
 
 // creating scene
 const scene = new THREE.Scene();
 
-// objects
-const geometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1, 2);
-const material = new THREE.MeshBasicMaterial({
-	map: texture,
-	// color: 0xff0000,
-	// wireframe: true,
-});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
-const parameter = {
-	color: 0x000fff,
-	spin: () => {
-		gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + 10 });
-	},
-};
-//gui debug
-gui.add(mesh.position, 'y').min(-3).max(3).step(0.01).name('positionY');
-gui.add(mesh.rotation, 'y').min(-3).max(3).step(0.01).name('rotateY');
-gui.add(mesh, 'visible');
-gui.add(mesh.position, 'x', -3, 3, 0.01);
-gui.add(mesh.position, 'z', -3, 3, 0.01);
-gui.addColor(parameter, 'color').onChange(() => {
-	material.color.set(parameter.color);
-});
-gui.add(parameter, 'spin');
+// const material = new THREE.MeshBasicMaterial();
+// material.map = doorColorTexture;
+// // material.color = new THREE.Color('purple'); //external color for meshbasic material
+// // // material.wireframe = true;
+// // material.opacity = 0.7;
+// material.transparent = true;
+// material.side = THREE.FrontSide; //front back and double
+
+// const material = new THREE.MeshNormalMaterial();
+// material.flatShading = true;
+
+// const material = new THREE.MeshMatcapMaterial();
+// material.matcap = doorColorTexture;
+const material = new THREE.MeshDepthMaterial();
+// material.matcap = doorColorTexture;
+
+const sphere = new THREE.Mesh(
+	new THREE.SphereBufferGeometry(0.5, 16, 16),
+	material
+);
+sphere.position.x = -1.5;
+
+const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), material);
+
+const torus = new THREE.Mesh(
+	new THREE.TorusBufferGeometry(0.3, 0.2, 16, 32),
+	material
+);
+torus.position.x = 1.5;
+scene.add(sphere, plane, torus);
 
 // axes helper(see the position of x y and z axis and their position)
 const axesHelper = new THREE.AxesHelper();
 scene.add(axesHelper);
 
 // mesh.position.normalize();
+
+//lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+PointLight.position.x = 2;
+PointLight.position.y = 3;
+PointLight.position.z = 4;
+scene.add(PointLight);
 // sizes
 const sizes = {
 	width: window.innerHeight,
@@ -152,7 +137,7 @@ const clock = new THREE.Clock();
 // animations
 const loop = () => {
 	// clock
-	// const elapsedTime = clock.getElapsedTime();
+	const elapsedTime = clock.getElapsedTime();
 	// console.log(elapsedTime);
 	// same for everyone
 	// time
@@ -174,6 +159,10 @@ const loop = () => {
 	// camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
 	// camera.position.y = cursor.y * 5;
 	// camera.lookAt(mesh.position);
+	// rotate or update objects
+	sphere.rotation.y = 0.15 * elapsedTime;
+	plane.rotation.y = 0.15 * elapsedTime;
+	torus.rotation.y = 0.15 * elapsedTime;
 	// update controls
 	controls.update(); //update controls on each frame for damping
 
