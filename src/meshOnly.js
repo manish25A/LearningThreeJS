@@ -30,10 +30,13 @@ const scene = new THREE.Scene();
 
 // const material = new THREE.MeshMatcapMaterial();
 // material.matcap = doorColorTexture;
-const material = new THREE.MeshLambertMaterial();
+const material = new THREE.MeshPhongMaterial();
+// const material = new THREE.MeshLambertMaterial();
 // const material = new THREE.MeshDepthMaterial();
 // material.matcap = doorColorTexture;
 
+material.shininess = 1000;
+material.specular = new THREE.Color(0x1188ff);
 const sphere = new THREE.Mesh(
 	new THREE.SphereBufferGeometry(0.5, 16, 16),
 	material
@@ -60,46 +63,15 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 // scene.add(ambientLight);
 
 const pointLight = new THREE.PointLight(0xffffff, 0.5);
-PointLight.position.x = 2;
-PointLight.position.y = 3;
-PointLight.position.z = 4;
-scene.add(PointLight);
+pointLight.position.x = 2;
+pointLight.position.y = 3;
+pointLight.position.z = 4;
+scene.add(pointLight);
 // sizes
 const sizes = {
 	width: window.innerHeight,
 	height: window.innerHeight,
 };
-window.addEventListener('resize', () => {
-	// update sizes
-	sizes.width = window.innerWidth;
-	sizes.height = window.innerHeight;
-
-	// update camera
-	camera.aspect = sizes.width / sizes.height;
-	camera.updateProjectionMatrix();
-	renderer.setSize(sizes.width, sizes.height);
-	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-});
-// listen to doubleclick for fullscreen handling
-window.addEventListener('keypress', (event) => {
-	const fullscreenElement =
-		document.fullscreenElement || document.webkitFullScreen;
-	if (event.key == 'f') {
-		if (!fullscreenElement) {
-			canvas.requestFullscreen();
-		} else if (canvas.webkitRequestFullScreen) {
-			//for safari
-			canvas.webkitRequestFullScreen();
-		} else {
-			if (document.exitFullscreen) {
-				document.exitFullscreen();
-			} else if (document.webkitExitFullScreen) {
-				document.webkitExitFullScreen();
-			}
-		}
-	}
-});
-
 // Camera
 // using logical camera
 const camera = new THREE.PerspectiveCamera(
