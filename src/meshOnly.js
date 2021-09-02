@@ -30,7 +30,8 @@ const scene = new THREE.Scene();
 
 // const material = new THREE.MeshMatcapMaterial();
 // material.matcap = doorColorTexture;
-const material = new THREE.MeshDepthMaterial();
+const material = new THREE.MeshLambertMaterial();
+// const material = new THREE.MeshDepthMaterial();
 // material.matcap = doorColorTexture;
 
 const sphere = new THREE.Mesh(
@@ -56,6 +57,9 @@ scene.add(axesHelper);
 
 //lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+// scene.add(ambientLight);
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5);
 PointLight.position.x = 2;
 PointLight.position.y = 3;
 PointLight.position.z = 4;

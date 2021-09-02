@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const commonConfiguration = require('./webpack.common.js');
+const ip = require('internal-ip');
 const portFinderSync = require('portfinder-sync');
 
 module.exports = merge(commonConfiguration, {
@@ -18,8 +19,10 @@ module.exports = merge(commonConfiguration, {
 		after: function (app, server, compiler) {
 			const port = server.options.port;
 			const https = server.options.https ? 's' : '';
-			const domain = `http${https}://localhost:${port}`;
-			console.log(`Project running at: ${domain}`);
+
+			const domain2 = `http${https}://localhost:${port}`;
+
+			console.log(`Project running at:\n  ${domain2}`);
 		},
 	},
 });
