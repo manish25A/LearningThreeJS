@@ -15,6 +15,7 @@ const scene = new THREE.Scene();
 
 const textureLoader = new THREE.TextureLoader();
 const doorColorTexture = textureLoader.load('door.jpg');
+const circleTexture = textureLoader.load('displacementMap.png');
 
 const fontLoader = new THREE.FontLoader();
 fontLoader.load('fonts/helvetiker_regular.typeface.json', (font) => {
@@ -46,13 +47,13 @@ fontLoader.load('fonts/helvetiker_regular.typeface.json', (font) => {
 	material.matcap = doorColorTexture;
 	const text = new THREE.Mesh(textGeometry, material);
 	scene.add(text);
+	const circleMaterial = new THREE.MeshMatcapMaterial({
+		matcap: circleTexture,
+	});
+	const circleGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45);
 
 	for (let i = 0; i < 100; i++) {
-		const circleGeometry = new THREE.TorusBufferGeometry(0.3, 0.2, 20, 45);
-		const material = new THREE.MeshMatcapMaterial({
-			matcap: doorColorTexture,
-		});
-		const circle = new THREE.Mesh(circleGeometry, material);
+		const circle = new THREE.Mesh(circleGeometry, circleMaterial);
 		circle.position.x = (Math.random() - 0.5) * 10;
 		circle.position.y = (Math.random() - 0.5) * 10;
 		circle.position.z = (Math.random() - 0.5) * 10;
@@ -103,7 +104,7 @@ const renderer = new THREE.WebGLRenderer({
 //controls
 const controls = new OrbitControls(camera, canvas);
 // controls.enableZoom = false;
-// controls.enableDamping = true; //for smoothness
+controls.enableDamping = true; //for smoothness
 // controls.target.y = 1;
 // controls.update();
 
