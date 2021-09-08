@@ -1,6 +1,7 @@
 {
 	"scripts": {
-		"dev": "webpack serve --config ./bundler/webpack.dev.js"
+		"dev": "webpack serve --config ./bundler/webpack.dev.js",
+		"build": "webpack --config ./bundler/webpack.prod.js"
 	},
 	"dependencies": {
 		"@babel/core": "^7.15.0",
