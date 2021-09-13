@@ -7,8 +7,8 @@
         {
             "type": "pwa-msedge",
             "request": "launch",
-            "name": "Launch Edge",
-            "url": "http://${localIp}:5000",
+            "name": "Launch Edge against localhost",
+            "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
         }
     ]
