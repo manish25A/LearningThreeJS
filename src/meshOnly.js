@@ -8,7 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import * as dat from 'dat.gui';
 
 //debug gui
-//debug
+
 const gui = new dat.GUI();
 
 const textureLoader = new THREE.TextureLoader();
