@@ -17,7 +17,6 @@ import * as dat from 'dat.gui';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper';
 
 //debug gui
-//debug
 const gui = new dat.GUI();
 
 const textureLoader = new THREE.TextureLoader();
