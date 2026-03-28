@@ -1,14 +1,19 @@
 services:
   haunted-house:
     build: .
-    container_name: threejs_haunted_house
-    ports:
-      - "5000:5000"
+    # Remove the public port mapping here
+    expose:
+      - "5000"
+    userns_mode: "keep-id"
     volumes:
       - .:/app:Z
-      - /app/node_modules  # Don't overwrite container modules with local ones
-    environment:
-      - NODE_ENV=development
-    # This part is crucial for WSL/Docker to detect file changes
-    stdin_open: true
-    tty: true
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - haunted-house
