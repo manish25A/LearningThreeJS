@@ -1,0 +1,14 @@
+services:
+  haunted-house:
+    build: .
+    container_name: threejs_haunted_house
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - /app/node_modules  # Don't overwrite container modules with local ones
+    environment:
+      - NODE_ENV=development
+    # This part is crucial for WSL/Docker to detect file changes
+    stdin_open: true
+    tty: true
