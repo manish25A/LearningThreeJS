@@ -5,7 +5,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/app
+      - .:/app:Z
       - /app/node_modules  # Don't overwrite container modules with local ones
     environment:
       - NODE_ENV=development
