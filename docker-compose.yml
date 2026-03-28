@@ -1,19 +1,23 @@
 services:
   haunted-house:
     build: .
-    # Remove the public port mapping here
+    # Using 'expose' is correct; it stays internal to the pod
     expose:
       - "5000"
-    # userns_mode: "keep-id"
     volumes:
-      - .:/app:Z
+      - .:/app:Z 
+    restart: always
+    environment:
+      - NODE_ENV=production
 
   nginx:
     image: nginx:alpine
     ports:
-      - "8080:80"
-      - "443:443"
+      - "8080:80"   # Changed from 5000 to 8080 to avoid confusion
+      - "8443:443"  # Changed to 8443 to avoid privileged port errors
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # - ./certs:/etc/nginx/certs:ro # Added for SSL/HTTPS
     depends_on:
       - haunted-house
+    restart: always
