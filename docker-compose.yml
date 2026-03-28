@@ -4,7 +4,7 @@ services:
     # Remove the public port mapping here
     expose:
       - "5000"
-    userns_mode: "keep-id"
+    # userns_mode: "keep-id"
     volumes:
       - .:/app:Z
 
