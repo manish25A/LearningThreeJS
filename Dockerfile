@@ -5,7 +5,7 @@ FROM node:20-slim
 WORKDIR /app
 
 # Install dependencies first (better caching)
-COPY package.json yarn.lock* ./
+COPY package.json 
 RUN yarn install
 
 # Copy the rest of the files
