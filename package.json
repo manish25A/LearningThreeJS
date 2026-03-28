@@ -27,5 +27,8 @@
 		"webpack-dev-server": "^4.1.0",
 		"webpack-merge": "^5.8.0",
 		"yarn": "^1.22.11"
+	},
+	"devDependencies": {
+		"internal-ip": "^9.0.0"
 	}
 }
