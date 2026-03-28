@@ -6,6 +6,9 @@ services:
       - "5000"
     volumes:
       - .:/app:Z 
+    restart: always
+    environment:
+      - NODE_ENV=dev
 
   nginx:
     image: nginx:alpine
